@@ -1,6 +1,6 @@
 import { IFetchOptions } from './interface'
 import { parseServerSentEvent } from './sse'
-import { checkOk } from './utils'
+import { checkOk, getDefaultHeaders } from './utils'
 
 export async function fetchEventData(
   url: string | URL,
@@ -15,12 +15,8 @@ export async function fetchEventData(
     onClose,
     ...rest
   } = options
-  const defaultHeaders = {
-    Accept: 'text/event-stream',
-    'Content-Type': 'application/json',
-  }
   const mergedHeaders = {
-    ...defaultHeaders,
+    ...getDefaultHeaders(data),
     ...headers,
   }
   const body = options.body ?? JSON.stringify(data)

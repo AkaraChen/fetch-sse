@@ -21,3 +21,30 @@ export const checkOk = async (response: Response): Promise<void> => {
     throw new Error(message)
   }
 }
+
+export const getContentType = (
+  body?: BodyInit | null | Record<string, any>,
+) => {
+  if (typeof body === 'string') return 'text/plain'
+  if (body instanceof ArrayBuffer) return 'application/octet-stream'
+  if (body instanceof Blob) return body.type
+  if (body instanceof FormData) return 'multipart/form-data'
+  if (body instanceof URLSearchParams)
+    return 'application/x-www-form-urlencoded'
+  if (body instanceof ReadableStream) return 'text/event-stream'
+  if (!body) return undefined
+  return 'application/json'
+}
+
+export const getDefaultHeaders = (
+  body?: BodyInit | null | Record<string, any>,
+): HeadersInit => {
+  const contentType = getContentType(body)
+  const headers: HeadersInit = {
+    Accept: 'application/json',
+  }
+  if (contentType) {
+    headers['Content-Type'] = contentType
+  }
+  return headers
+}
