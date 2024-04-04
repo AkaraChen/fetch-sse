@@ -15,11 +15,11 @@ export async function fetchEventData(
     onClose,
     ...rest
   } = options
+  const body = options.body ?? JSON.stringify(data)
   const mergedHeaders = {
-    ...getDefaultHeaders(data),
+    ...getDefaultHeaders(body),
     ...headers,
   }
-  const body = options.body ?? JSON.stringify(data)
   try {
     const res = await fetch(url, {
       ...rest,
