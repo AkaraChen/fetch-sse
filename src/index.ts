@@ -1,2 +1,2 @@
-export * from './fetch';
-export * from './interface';
+export * from './fetch'
+export * from './interface'
